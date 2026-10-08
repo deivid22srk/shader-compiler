@@ -539,7 +539,10 @@ Id EmitInvocationInfo(EmitContext& ctx) {
         return ctx.OpShiftLeftLogical(ctx.U32[1], ctx.OpLoad(ctx.U32[1], ctx.patch_vertices_in),
                                       ctx.Const(16u));
     default:
-        LOG_WARNING(Shader, "(STUBBED) called");
+        // Diagnostics: disambiguate this site from the other "(STUBBED) called"
+        // emitters (VOTE_vtg, ISBERD). Behavior unchanged: non-tessellation
+        // stages return the fixed 0x00ff0000 invocation-info constant.
+        LOG_WARNING(Shader, "InvocationInfo: not implemented for non-tessellation stage, returning constant 0x00ff0000");
         return ctx.Const(0x00ff0000u);
     }
 }

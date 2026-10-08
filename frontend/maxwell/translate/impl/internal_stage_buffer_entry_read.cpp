@@ -46,7 +46,12 @@ void TranslatorVisitor::ISBERD(u64 insn) {
     if (isberd.shift != Shift::Default) {
         throw NotImplementedException("Shift {}", isberd.shift.Value());
     }
-    LOG_WARNING(Shader, "(STUBBED) called");
+    // Diagnostics: disambiguate this site from the other "(STUBBED) called"
+    // emitters (VOTE_vtg, EmitInvocationInfo). Behavior is unchanged: with
+    // all-default parameters ISBERD is stubbed as an identity register copy,
+    // which is only correct when the internal stage buffer is not in use
+    // (vertex-only programs); tessellation/geometry reads return wrong data.
+    LOG_WARNING(Shader, "ISBERD: internal stage buffer entry read stubbed as identity copy (internal stage buffer contents ignored)");
     X(isberd.dest_reg, X(isberd.src_reg));
 }
 

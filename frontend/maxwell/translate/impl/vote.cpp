@@ -48,7 +48,11 @@ void TranslatorVisitor::VOTE(u64 insn) {
 }
 
 void TranslatorVisitor::VOTE_vtg(u64) {
-    LOG_WARNING(Shader, "(STUBBED) called");
+    // Diagnostics: disambiguate this site from the other "(STUBBED) called"
+    // emitters (ISBERD, EmitInvocationInfo) so logs identify the opcode.
+    // Note: the instruction is skipped entirely, the destination register is
+    // left with whatever value it held previously.
+    LOG_WARNING(Shader, "VOTE_vtg: warp vote (vtg variant) is not implemented, instruction skipped (destination register left undefined)");
 }
 
 } // namespace Shader::Maxwell
